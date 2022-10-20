@@ -17,10 +17,25 @@
     "build-storybook": "rm -rf lib && npm run build && build-storybook",
     "prepare": "husky install"
   },
-  "author": "",
+  "author": "GovTechSG",
+  "contributors": [
+    {
+      "name": "rav3",
+      "url": "https://github.com/rav3"
+    },
+    {
+      "name": "haphizi",
+      "url": "https://github.com/haphizi"
+    },
+    {
+      "name": "clukhei",
+      "url": "https://github.com/clukhei"
+    }
+  ],
   "license": "MIT",
   "dependencies": {
     "@govtechsg/sgds": "^2.1.0-beta.1",
+    "@lit-labs/react": "^1.0.9",
     "bootstrap": "^5.1.3",
     "bootstrap-icons": "^1.9.1",
     "clk-styletest": "^2.0.9",
