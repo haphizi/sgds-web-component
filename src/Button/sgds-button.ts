@@ -9,6 +9,14 @@ export type ButtonVariant =
 "primary" | "secondary" | "success" | "danger" | "warning" | "info" | "light" | "dark" | "link" |
 "outline-primary" | "outline-secondary" | "outline-success" | "outline-danger" | "outline-warning" | "outline-info" | "outline-light" | "outline-dark"
 
+/**
+ * @since 0.0.8
+ * @status stable
+ *
+ *
+ *
+ * @slot - The button's label.
+ */
 @customElement("sgds-button")
 export class SgdsButton extends LitElement {
   static styles = styles;

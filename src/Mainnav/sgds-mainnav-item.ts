@@ -3,6 +3,14 @@ import { customElement, property } from "lit/decorators.js";
 import SgdsElement from "../utils/sgds-element";
 import styles from "./sgds-mainnav-item.scss";
 
+/**
+ * @since 0.0.8
+ * @status stable
+ *
+ *
+ *
+ * @slot - Label for the anchor tag.
+ */
 @customElement("sgds-mainnav-item")
 export class SgdsMainnavItem extends SgdsElement {
   static styles = styles;
@@ -23,3 +31,5 @@ export class SgdsMainnavItem extends SgdsElement {
     `;
   }
 }
+
+export default SgdsMainnavItem;

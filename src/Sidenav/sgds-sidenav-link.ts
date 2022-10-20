@@ -3,6 +3,13 @@ import SgdsElement from "../utils/sgds-element";
 import { customElement, property } from "lit/decorators.js";
 import styles from "./sgds-sidenav-link.scss";
 
+/**
+ * @since 0.0.8
+ * @status stable
+ *
+ *
+ * @slot - default slot for label of anchor tag.
+ */
 @customElement("sgds-sidenav-link")
 export class SgdsSidenavLink extends SgdsElement {
   static styles = styles;
@@ -23,3 +30,5 @@ export class SgdsSidenavLink extends SgdsElement {
     `;
   }
 }
+
+export default SgdsSidenavLink;

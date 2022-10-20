@@ -5,6 +5,18 @@ import styles from "./sgds-sidenav-item.scss";
 import { ref, createRef, Ref } from "lit/directives/ref.js";
 import { Collapse } from "bootstrap";
 import genId from "../utils/generateId";
+
+/**
+ * @since 0.0.8
+ * @status stable
+ *
+ * @dependency sl-spinner
+ *
+ * @event sgds-toggle - Emitted when the dropdown is clicked.
+ *
+ * @slot - default slot for SgdsSidenavLink element.
+ * @slot title - title slot for the content of SgdsSidenavItem's button / anchor element.
+ */
 @customElement("sgds-sidenav-item")
 export class SgdsSidenavItem extends SgdsElement {
   static styles = styles;
@@ -128,3 +140,5 @@ export class SgdsSidenavItem extends SgdsElement {
     `;
   }
 }
+
+export default SgdsSidenavItem;
