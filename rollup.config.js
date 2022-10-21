@@ -6,7 +6,7 @@ const packageJson = require("./package.json");
 import { getFolders } from './scripts/buildUtils';
 import generatePackageJson from 'rollup-plugin-generate-package-json';
 
-const plugins = [
+const wcPlugins = [
   resolve({
     browser: true,
   }),
@@ -20,6 +20,19 @@ const plugins = [
     useTsconfigDeclarationDir: true,
   }),
 ]
+const subfolderWCPlugins = (folderName) => [
+  ...wcPlugins,
+  generatePackageJson({
+    baseContents: {
+      name: `${packageJson.name}/${folderName}`,
+      private: true,
+      main: '../umd/index.js',
+      module: './index.js',
+      types: './index.d.ts',
+    },
+  }),
+];
+
 const reactBuildPlugins = [
   resolve(),
   postcss({
@@ -29,16 +42,7 @@ const reactBuildPlugins = [
   litcss(),
   typescript({
     useTsconfigDeclarationDir: true,
-  }),
-  generatePackageJson({
-    baseContents: {
-      name: `${packageJson.name}/react`,
-      private: false,
-      main: './cjs/index.js',
-      module: './index.js',
-      types: './index.d.ts',
-    },
-  }),
+  })
 ]
 const reactSubFolderBuildPlugins = (folderName) =>  [
   ...reactBuildPlugins,
@@ -52,19 +56,8 @@ const reactSubFolderBuildPlugins = (folderName) =>  [
     },
   }),
 ]
-const subfolderPlugins = (folderName) => [
-  ...plugins,
-  generatePackageJson({
-    baseContents: {
-      name: `${packageJson.name}/${folderName}`,
-      private: true,
-      main: '../umd/index.js',
-      module: './index.js',
-      types: './index.d.ts',
-    },
-  }),
-];
-const folderBuilds = getFolders('./src').map((folder) => {
+
+const wcfolderBuilds = getFolders('./src').map((folder) => {
   return {
     input: `src/${folder}/index.ts`,
     output: [
@@ -75,13 +68,9 @@ const folderBuilds = getFolders('./src').map((folder) => {
       format: 'esm',
       }
     ],
-    plugins: subfolderPlugins(folder),
+    plugins: subfolderWCPlugins(folder),
   };
 });
-
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
 const reactFolderBuilds = getFolders('src/react').map((folder) => {
   return {
@@ -114,9 +103,9 @@ export default [
         name: "index"
       },
     ],
-    plugins
+    plugins: wcPlugins
   },
-  ...folderBuilds,
+  ...wcfolderBuilds,
   {
     input: 'src/react/index.ts',
     output: [
@@ -125,7 +114,22 @@ export default [
         format: 'esm',
         sourcemap: true,
         exports: 'named',
+      }
+    ],
+    plugins: [...reactBuildPlugins,  generatePackageJson({
+      baseContents: {
+        name: `${packageJson.name}/react`,
+        private: false,
+        main: './cjs/index.js',
+        module: './index.js',
+        types: './index.d.ts',
       },
+    }),],
+    external: ['@lit-labs/react', 'react'],
+  },
+  {
+    input: 'src/react/index.ts',
+    output: [
       {
         file: "lib/react/cjs/index.js",
         format: 'cjs',
@@ -133,7 +137,7 @@ export default [
         exports: 'named',
       },
     ],
-    plugins: reactBuildPlugins,
+    plugins: [...reactBuildPlugins],
     external: ['@lit-labs/react', 'react'],
   },
   ...reactFolderBuilds
