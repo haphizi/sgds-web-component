@@ -4,11 +4,6 @@ import SgdsElement from "../utils/sgds-element";
 import styles from "./sgds-mainnav-item.scss";
 
 /**
- * @since 0.0.8
- * @status stable
- *
- *
- *
  * @slot - Label for the anchor tag.
  */
 @customElement("sgds-mainnav-item")

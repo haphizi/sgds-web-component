@@ -7,10 +7,6 @@ import { Collapse } from "bootstrap";
 import genId from "../utils/generateId";
 
 /**
- * @since 0.0.8
- * @status stable
- *
- * @dependency sl-spinner
  *
  * @event sgds-toggle - Emitted when the dropdown is clicked.
  *
