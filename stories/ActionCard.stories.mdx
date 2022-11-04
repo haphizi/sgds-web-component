@@ -1,0 +1,144 @@
+import { Canvas, Meta, Story, ArgsTable } from "@storybook/addon-docs";
+import { html } from "lit";
+import { withWebComponentsKnobs } from "storybook-addon-web-components-knobs";
+import { withKnobs, text, number } from "@storybook/addon-knobs";
+import "../lib/Card";
+
+<Meta
+  title='Components/Card/Action Card'
+  argTypes={{
+    bgColor: {
+      control: "select",
+      options: [
+        "primary",
+        "secondary",
+        "success",
+        "danger",
+        "warning",
+        "info",
+        "dark",
+        "light",
+      ],
+      defaultValue: "",
+      table: { category: "props" },
+      description: "Toggles the background color of the card",
+    },
+    textColor: {
+      control: "select",
+      options: [
+        "primary",
+        "secondary",
+        "success",
+        "danger",
+        "warning",
+        "info",
+        "dark",
+        "light",
+        "white",
+        "muted",
+      ],
+      defaultValue: "",
+      table: { category: "props" },
+      description: "Toggles the text color of the card",
+    },
+    borderColor: {
+      control: "select",
+      options: [
+        "primary",
+        "secondary",
+        "success",
+        "danger",
+        "warning",
+        "info",
+        "dark",
+        "light",
+      ],
+      defaultValue: "",
+      table: { category: "props" },
+      description: "Toggles the border color of the card",
+    },
+    disabled: {
+      control: "boolean",
+      defaultValue: false,
+      table: { category: "props" },
+      description: "The disabled state of the card input",
+    },
+    iconName: {
+      control: "text",
+      defaultValue: "box",
+      table: {
+        category: "props",
+        type: { summary: "string" },
+      },
+      description:
+        "Optional. The name of the [bootstrap's icon](https://icons.getbootstrap.com/)",
+    },
+    cardSubtitleSlot: {
+      name: "card-subtitle",
+      control: "text",
+      defaultValue: "Laptop",
+      description: "Insert text here for card-subtitle slot",
+      table: {
+        category: "slots",
+        type: {
+          summary: "string",
+        },
+      },
+    },
+    cardTitleSlot: {
+      name: "card-title",
+      control: "text",
+      defaultValue: "Apple",
+      description: "Insert text here for card-title slot",
+      table: {
+        category: "slots",
+        type: {
+          summary: "string",
+        },
+      },
+    },
+    cardTextSlot: {
+      name: "card-text",
+      control: "text",
+      defaultValue: "Macbook Pro M1",
+      description: "Insert text here for card-text slot",
+      table: {
+        category: "slots",
+        type: {
+          summary: "string",
+        },
+      },
+    },
+  }}
+/>
+
+export const Template = (args) =>
+  html`
+    <sgds-action-card
+      .bgColor=${args.bgColor}
+      .borderColor=${args.borderColor}
+      .textColor=${args.textColor}
+      .disabled=${args.disabled}
+      ?iconName=${args.iconName}
+    >
+      <span slot="card-subtitle">${args.cardSubtitleSlot}</span>
+      <span slot="card-title">${args.cardTitleSlot}</span>
+      <span slot="card-text">${args.cardTextSlot}</span>
+    </sgds-action-card>
+  `;
+
+# SgdsActionCard
+
+Action Cards are Cards that are able to perform actions like selection or quantity toggling. Usually with built-in input elements.
+
+<Canvas>
+  <Story name='Basic'>{Template.bind({})}</Story>
+</Canvas>
+
+## API
+
+```jsx
+import { SgdsActionCard } from "@govtechsg/sgds-web-component";
+```
+
+<ArgsTable story='Basic' />
