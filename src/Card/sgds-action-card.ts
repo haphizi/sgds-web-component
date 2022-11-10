@@ -1,9 +1,9 @@
 import { customElement, property, state, query } from "lit/decorators.js";
 import { html, literal } from "lit/static-html.js";
-import { ifDefined } from "lit/directives/if-defined.js";
 import { classMap } from "lit/directives/class-map.js";
 import styles from "./sgds-action-card.scss";
 import { CardElement } from "../utils/card-element";
+import { ref, createRef, Ref } from "lit/directives/ref.js";
 
 export type CardVariant = "card-action" | "card-action-quantity-toggle";
 
@@ -14,7 +14,7 @@ export class SgdsActionCard extends CardElement {
   static styles = styles;
 
   @query("sgds-checkbox") // Define the query
-  inputEl!: HTMLElement; // Declare the prop
+  inputEl!: HTMLInputElement; // Declare the prop
 
   @property({ type: String, reflect: true }) type?: TypeVariant = "checkbox";
 
@@ -24,24 +24,48 @@ export class SgdsActionCard extends CardElement {
   /** The card's subtitle iconName. */
   @property() iconName?: string;
 
-  @property({ type: Boolean, reflect: true })
-  disabled = false;
+  /** The input's id. */
+  @property() inputId?: string;
+
+  @state() active = false;
 
   // Declare the click event listener
-  onInputClick() {
-    // Use the query to click
-    this.inputEl.click();
+  onInputChange() {
+    this.inputEl!.click();
+    // if (this.inputEl!.checked) this.active = !this.active;
+    // else {
+    //   this.active = false;
+    // }
   }
+
+  // if (this.inputRef.value!.checked) {
+  //   this.checked = this.inputRef.value!.checked;
+  // } else if (!this.inputRef.value!.checked) {
+  //   this.checked = !this.checked
+  // }
+  // }
+
+  handleKeyDown(event: KeyboardEvent) {
+    const hasModifier =
+      event.metaKey || event.ctrlKey || event.shiftKey || event.altKey;
+    if (event.key === "Enter" && !hasModifier) {
+      this.onInputChange();
+    }
+  }
+  // handleChange(event: string){
+  //   this.checked = this.inputRef.value.checked;
+  //   this.emit(event);
+  // }
 
   render() {
     const checkbox = html`<sgds-checkbox
       ?disabled=${this.disabled}
-      @click=${this.onInputClick}
+      checkboxId=${this.inputId}
+      @click=${this.onInputChange}
+      @keydown=${this.handleKeyDown}
     ></sgds-checkbox>`;
 
-    const icon = html `<sl-icon name="${
-      this.iconName
-    }"></sl-icon>`
+    const icon = html`<sl-icon name="${this.iconName}"></sl-icon>`;
 
     // TODO: Radio component
 
@@ -49,23 +73,25 @@ export class SgdsActionCard extends CardElement {
 
     return html`
       <div
-        tabindex="0"
+      tabindex=${this.disabled ? "-1" : "0"}
+      @click=${this.onInputChange}
+     @keydown=${this.handleKeyDown}
         variant="card-action"
         class="sgds card
         ${classMap({
           [`text-${this.textColor}`]: this.textColor,
           [`bg-${this.bgColor}`]: this.bgColor,
           [`border-${this.borderColor}`]: this.borderColor,
+          ["is-active"]: this.active,
         })}
         "
-        @click=${this.onInputClick}
       >
         <div class="card-body">
           <h6 class="text-muted card-subtitle">
             <div>
-              ${this.iconName == undefined ? undefined : icon }
+              ${this.iconName == undefined ? undefined : icon}
               <slot name="card-subtitle"></slot></slot>
-              </div>
+            </div>
             <div class="card-input">
             ${
               this.type == "checkbox" && this.variant == "card-action"
@@ -74,7 +100,7 @@ export class SgdsActionCard extends CardElement {
                 ? undefined
                 : undefined
             }
-          </div>
+            </div>
           </h6>
           <h5 class="card-title"><slot name="card-title"></slot></h5>
           <p class="card-text"><slot name="card-text"></slot></p>

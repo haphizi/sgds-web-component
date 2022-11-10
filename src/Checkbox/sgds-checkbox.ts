@@ -55,7 +55,6 @@ export class SgdsCheckbox extends SgdsElement {
   @defaultValue("checked")
   defaultChecked = false;
 
-
   /** Simulates a click on the checkbox. */
   click() {
     this.input.click();
