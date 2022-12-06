@@ -109,6 +109,21 @@ import "../lib/Card";
         },
       },
     },
+    type: {
+      control: "select",
+       options: [
+        'checkbox',
+        'radio',
+       ],
+      defaultValue: "checkbox",
+      description: "For variant card-action, change the type to radio or checkbox by default",
+      table: {
+        category: "slots",
+        type: {
+          summary: "string",
+        },
+      },
+    },
   }}
 />
 
@@ -120,6 +135,7 @@ export const Template = (args) =>
       .textColor=${args.textColor}
       .disabled=${args.disabled}
       ?iconName=${args.iconName}
+      .type=${args.type}
     >
       <span slot="card-subtitle">${args.cardSubtitleSlot}</span>
       <span slot="card-title">${args.cardTitleSlot}</span>
